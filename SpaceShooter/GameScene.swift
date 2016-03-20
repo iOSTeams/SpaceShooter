@@ -15,6 +15,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     var lastUpdateTimeInterval: NSTimeInterval = NSTimeInterval()
     var aliensDestroyed: Int = 0
     
+    //bitmask
+    let alienCategory: UInt32 = 0x1 << 1
+    let photonTorpedoCategory: UInt32 = 0x1 << 0
     
 
     override func didMoveToView(view: SKView) {
@@ -45,7 +48,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
+    func addAlien() {
+        
+        var alien:SKSpriteNode = SKSpriteNode(imageNamed: "alien")
+        alien.physicsBody = SKPhysicsBody(rectangleOfSize: alien.size)
+        alien.physicsBody?.dynamic = true
+        
+        alien.physicsBody?.categoryBitMask = alienCategory
+        alien.physicsBody?.contactTestBitMask = photonTorpedoCategory
+        alien.physicsBody?.collisionBitMask = 0
+        
+        //Position of random aliens
+        let minX = alien.size.width/2
+        let maxX = self.frame.size.width - alien.size.width/2
+        let rangex = maxX - maxX
+        let position: CGFloat = CGFloat(arc4random()) % CGFloat(rangex) + CGFloat(minX)
+        
+        alien.position = CGPointMake(position, self.frame.size.height + alien.size.height)
+        
+        self.addChild(alien)
+    }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
        /* Called when a touch begins */

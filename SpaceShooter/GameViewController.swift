@@ -8,8 +8,13 @@
 
 import UIKit
 import SpriteKit
+import AVFoundation
+import AVKit
+
 
 class GameViewController: UIViewController {
+    
+    var backgroundMusicPlayer: AVAudioPlayer = AVAudioPlayer()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +33,27 @@ class GameViewController: UIViewController {
             
             skView.presentScene(scene)
         }*/
+    }
+    
+    override func viewWillLayoutSubviews() {
+        
+        var bgMusicURL:NSURL = NSBundle.mainBundle().URLForResource("bgmusic", withExtension: "mp3")!
+        backgroundMusicPlayer = try! AVAudioPlayer(contentsOfURL: bgMusicURL )
+        backgroundMusicPlayer.numberOfLoops = -1
+        backgroundMusicPlayer.prepareToPlay()
+        backgroundMusicPlayer.play()
+        
+        var SkView:SKView = self.view as! SKView
+        SkView.showsFPS = true
+        SkView.showsNodeCount = true
+        SkView.ignoresSiblingOrder = true
+        
+        let scene:SKScene = GameScene(size: SkView.bounds.size)
+        
+        scene.scaleMode = .AspectFill
+
+        SkView.presentScene(scene)
+        
     }
 
     override func shouldAutorotate() -> Bool {

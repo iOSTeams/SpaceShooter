@@ -14,8 +14,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     var lastYieldTimeInterval: NSTimeInterval = NSTimeInterval()
     var lastUpdateTimeInterval: NSTimeInterval = NSTimeInterval()
     var aliensDestroyed: Int = 0
+    var aliens:NSMutableArray = NSMutableArray()
     
     //bitmask
+    
+    //bitwise multiplication
     let alienCategory: UInt32 = 0x1 << 1
     let photonTorpedoCategory: UInt32 = 0x1 << 0
     
@@ -50,23 +53,48 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     
     func addAlien() {
         
-        var alien:SKSpriteNode = SKSpriteNode(imageNamed: "alien")
+        let alien:SKSpriteNode = SKSpriteNode(imageNamed: "alien")
         alien.physicsBody = SKPhysicsBody(rectangleOfSize: alien.size)
         alien.physicsBody?.dynamic = true
-        
         alien.physicsBody?.categoryBitMask = alienCategory
         alien.physicsBody?.contactTestBitMask = photonTorpedoCategory
         alien.physicsBody?.collisionBitMask = 0
         
-        //Position of random aliens
+        //Where to create aliens along the x axis
         let minX = alien.size.width/2
         let maxX = self.frame.size.width - alien.size.width/2
-        let rangex = maxX - maxX
+        let rangex = maxX - minX
         let position: CGFloat = CGFloat(arc4random()) % CGFloat(rangex) + CGFloat(minX)
         
         alien.position = CGPointMake(position, self.frame.size.height + alien.size.height)
         
         self.addChild(alien)
+        
+        let minDuration = 2
+        let maxDuration = 4
+        let rangeDuration = maxDuration - minDuration
+        let duration = Int(arc4random()) % Int(rangeDuration) + Int(minDuration)
+//        
+//        var actionArray:NSMutableArray = NSMutableArray()
+//        actionArray.addObject(SKAction.moveTo(CGPointMake(position, -alien.size.height ) , duration: NSTimeInterval(duration)))
+//        actionArray.addObject(SKAction.removeFromParent())
+        
+        let move = SKAction.moveTo(CGPointMake(position, -alien.size.height ), duration: NSTimeInterval(duration))
+        let remove = SKAction.removeFromParent()
+        alien.runAction(SKAction.sequence([move,remove]))
+        
+        //alien.runAction(SKAction.sequence(actionArray))
+        
+        
+    }
+    
+    func updateWithTimeSinceLastUpdate(timeSinceLastUpdate:CFTimeInterval) {
+        
+        lastYieldTimeInterval += timeSinceLastUpdate
+        if (lastYieldTimeInterval > 1) {
+            lastYieldTimeInterval = 0
+            addAlien()
+        }
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -74,8 +102,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         
         for touch in touches {
             let location = touch.locationInNode(self)
-            
-            let sprite = SKSpriteNode(imageNamed:"Spaceship")
+            let sprite = SKSpriteNode(imageNamed:"alien")
+            //let sprite = SKSpriteNode(imageNamed:"Spaceship")
             
             sprite.xScale = 0.5
             sprite.yScale = 0.5
@@ -91,5 +119,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
    
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
+        
+        var timeSinceLastUpdate = currentTime - lastUpdateTimeInterval
+        lastUpdateTimeInterval = currentTime
+        
+        if (timeSinceLastUpdate > 1) {
+            timeSinceLastUpdate = 1/60
+            lastUpdateTimeInterval = currentTime
+        }
+        
+        self.updateWithTimeSinceLastUpdate(timeSinceLastUpdate)
     }
 }

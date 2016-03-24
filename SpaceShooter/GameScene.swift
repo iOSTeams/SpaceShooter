@@ -85,6 +85,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         
         //alien.runAction(SKAction.sequence(actionArray))
         
+        //Must finish soon
         
     }
     

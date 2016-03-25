@@ -87,6 +87,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         
         //Must finish soon
         
+        //Studying for statistics sorry :(
+        
     }
     
     func updateWithTimeSinceLastUpdate(timeSinceLastUpdate:CFTimeInterval) {

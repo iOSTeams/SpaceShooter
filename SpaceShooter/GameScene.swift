@@ -104,7 +104,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         
         self.runAction(SKAction.playSoundFileNamed("torpedo.mp3", waitForCompletion: false))
         
-        var touch:UITouch = touches.all
+        var touch:UITouch = touches.first! as UITouch
             //.anyObject() as UITouch
         var location:CGPoint = touch.locationInNode(self)
         
@@ -130,7 +130,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         
         var direction:CGPoint = vecNormalize(offset)
         
-        var shotLength:CGPoint = vecMulti(direction, 1000)
+        var shotLength:CGPoint = vecMulti(direction, b: 1000)
+        
+        var finalDestination:CGPoint = vecAdd(shotLength, b: torpedo.position)
+        
+        let velocity = 581/1
+        
+        let moveDuration:Float = Float(self.size.width) / Float(velocity)
+        
+        
+        
+        let move = SKAction.moveTo(finalDestination, duration: NSTimeInterval(moveDuration))
+        let remove = SKAction.removeFromParent()
+        
+        
+        torpedo.runAction(SKAction.sequence([move,remove]))
+        
+        //var actio
         
         
         

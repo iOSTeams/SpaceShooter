@@ -101,23 +101,57 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-       /* Called when a touch begins */
         
-        for touch in touches {
-            let location = touch.locationInNode(self)
-            let sprite = SKSpriteNode(imageNamed:"alien")
-            //let sprite = SKSpriteNode(imageNamed:"Spaceship")
-            
-            sprite.xScale = 0.5
-            sprite.yScale = 0.5
-            sprite.position = location
-            
-            let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
-            
-            sprite.runAction(SKAction.repeatActionForever(action))
-            
-            self.addChild(sprite)
+        self.runAction(SKAction.playSoundFileNamed("torpedo.mp3", waitForCompletion: false))
+        
+        var touch:UITouch = touches.all
+            //.anyObject() as UITouch
+        var location:CGPoint = touch.locationInNode(self)
+        
+        var torpedo:SKSpriteNode = SKSpriteNode(imageNamed: "torpedo")
+        torpedo.position = player.position
+        
+        torpedo.physicsBody = SKPhysicsBody(circleOfRadius: torpedo.size.width/2)
+        torpedo.physicsBody?.dynamic = true
+        
+        torpedo.physicsBody?.contactTestBitMask = photonTorpedoCategory
+        torpedo.physicsBody?.contactTestBitMask = alienCategory
+        torpedo.physicsBody?.contactTestBitMask = 0
+        torpedo.physicsBody?.usesPreciseCollisionDetection = true
+        
+        var offset:CGPoint = vecSub(location, b: torpedo.position)
+        
+        if ( offset.y < 0 ) {
+            return
         }
+        
+        
+        self.addChild(torpedo)
+        
+        var direction:CGPoint = vecNormalize(offset)
+        
+        var shotLength:CGPoint = vecMulti(direction, 1000)
+        
+        
+        
+        
+//       /* Called when a touch begins */
+//        
+//        for touch in touches {
+//            let location = touch.locationInNode(self)
+//            let sprite = SKSpriteNode(imageNamed:"alien")
+//            //let sprite = SKSpriteNode(imageNamed:"Spaceship")
+//            
+//            sprite.xScale = 0.5
+//            sprite.yScale = 0.5
+//            sprite.position = location
+//            
+//            let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
+//            
+//            sprite.runAction(SKAction.repeatActionForever(action))
+//            
+//            self.addChild(sprite)
+//        }
     }
    
     override func update(currentTime: CFTimeInterval) {
@@ -133,4 +167,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         
         self.updateWithTimeSinceLastUpdate(timeSinceLastUpdate)
     }
+    
+    func vecAdd(a:CGPoint, b:CGPoint)->CGPoint {
+        return CGPointMake(a.x + b.x, a.y + b.y)
+    }
+    
+    func vecSub(a:CGPoint, b:CGPoint)->CGPoint{
+        return CGPointMake(a.x - b.x, a.y - b.y)
+    }
+    
+    func vecMulti(a:CGPoint, b:CGFloat)->CGPoint{
+        return CGPointMake(a.x * b, a.y * b)
+    }
+    
+    func vecLength(a:CGPoint)->CGFloat{
+        return CGFloat(sqrt(CGFloat(a.x)*CGFloat(a.x)+CGFloat(a.y)*CGFloat(a.y)))
+    }
+
+    func vecNormalize(a:CGPoint)->CGPoint{
+        var length: CGFloat = vecLength(a)
+        return CGPointMake(a.x / length, a.y / length)
+    }
+
+    
+    
+    
+    
 }

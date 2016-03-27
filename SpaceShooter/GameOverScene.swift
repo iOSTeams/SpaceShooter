@@ -29,11 +29,11 @@ class GameOverScene: SKScene {
         
         label.position = CGPointMake(self.size.width/2, self.size.height/2)
         
-        addChild(label)
+        self.addChild(label)
         
-        self.runAction(SKAction.sequence([SKAction.waitForDuration(3),
+        self.runAction(SKAction.sequence([SKAction.waitForDuration(1),
         SKAction.runBlock({
-            var transition:SKTransition = SKTransition.flipHorizontalWithDuration(0.5)
+            var transition:SKTransition = SKTransition.flipHorizontalWithDuration(0.3)
             var scene:SKScene = GameScene(size:self.size)
             self.view?.presentScene(scene, transition: transition)
         })

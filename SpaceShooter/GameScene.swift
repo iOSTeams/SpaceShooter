@@ -82,16 +82,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         let move = SKAction.moveTo(CGPointMake(position, -alien.size.height ), duration: NSTimeInterval(duration))
         let remove = SKAction.removeFromParent()
         
-        var actionArray:NSMutableArray = NSMutableArray()
-
-        actionArray.addObject(SKAction.runBlock({
-            var transition: SKTransition = SKTransition.flipHorizontalWithDuration(0.3)
+        
+        //var actionArray:NSMutableArray = NSMutableArray()
+        //Show loss screen
+        let d = SKAction.runBlock({
+            var transition: SKTransition = SKTransition.flipHorizontalWithDuration(1.0)
             var gameOverScene:SKScene = GameOverScene(size: self.size, won: false)
             self.view?.presentScene(gameOverScene, transition: transition)
-        }))
+        })
         
         
-            alien.runAction(SKAction.sequence([move,remove]))
+            alien.runAction(SKAction.sequence([move,d,remove]))
         //alien.runAction(SKAction.sequence(actionArray))
         
         //alien.runAction(SKAction.sequence(actionArray))

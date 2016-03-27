@@ -81,7 +81,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         
         let move = SKAction.moveTo(CGPointMake(position, -alien.size.height ), duration: NSTimeInterval(duration))
         let remove = SKAction.removeFromParent()
-        alien.runAction(SKAction.sequence([move,remove]))
+        
+        var actionArray:NSMutableArray = NSMutableArray()
+
+        actionArray.addObject(SKAction.runBlock({
+            var transition: SKTransition = SKTransition.flipHorizontalWithDuration(0.3)
+            var gameOverScene:SKScene = GameOverScene(size: self.size, won: false)
+            self.view?.presentScene(gameOverScene, transition: transition)
+        }))
+        
+        
+            alien.runAction(SKAction.sequence([move,remove]))
+        //alien.runAction(SKAction.sequence(actionArray))
         
         //alien.runAction(SKAction.sequence(actionArray))
         
@@ -182,8 +193,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         
         aliensDestroyed += 1
         
-        if ( aliensDestroyed > 10) {
+        if ( aliensDestroyed > 2) {
             //Transition to gameover
+            var transition: SKTransition = SKTransition.flipHorizontalWithDuration(0.3)
+            var gameOverScene:SKScene = GameOverScene(size: self.size, won: true)
+            self.view?.presentScene(gameOverScene, transition: transition)
         }
     }
     

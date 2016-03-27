@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		313876281CA7B188006959F2 /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313876271CA7B188006959F2 /* GameOverScene.swift */; };
 		3142A0DD1C9F41D9000B5B9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3142A0DC1C9F41D9000B5B9A /* AppDelegate.swift */; };
 		3142A0DF1C9F41D9000B5B9A /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3142A0DE1C9F41D9000B5B9A /* GameScene.sks */; };
 		3142A0E11C9F41D9000B5B9A /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3142A0E01C9F41D9000B5B9A /* GameScene.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		313876271CA7B188006959F2 /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		3142A0D91C9F41D9000B5B9A /* SpaceShooter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpaceShooter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3142A0DC1C9F41D9000B5B9A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3142A0DE1C9F41D9000B5B9A /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 				3142A0DC1C9F41D9000B5B9A /* AppDelegate.swift */,
 				3142A0DE1C9F41D9000B5B9A /* GameScene.sks */,
 				3142A0E01C9F41D9000B5B9A /* GameScene.swift */,
+				313876271CA7B188006959F2 /* GameOverScene.swift */,
 				3142A0E21C9F41D9000B5B9A /* GameViewController.swift */,
 				3142A0E41C9F41D9000B5B9A /* Main.storyboard */,
 				3142A0E71C9F41D9000B5B9A /* Assets.xcassets */,
@@ -181,6 +184,7 @@
 			files = (
 				3142A0E11C9F41D9000B5B9A /* GameScene.swift in Sources */,
 				3142A0E31C9F41D9000B5B9A /* GameViewController.swift in Sources */,
+				313876281CA7B188006959F2 /* GameOverScene.swift in Sources */,
 				3142A0DD1C9F41D9000B5B9A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -329,6 +333,7 @@
 				3142A0F11C9F41D9000B5B9A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -116,7 +116,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         
         torpedo.physicsBody?.contactTestBitMask = photonTorpedoCategory
         torpedo.physicsBody?.contactTestBitMask = alienCategory
-        torpedo.physicsBody?.contactTestBitMask = 0
+        torpedo.physicsBody?.collisionBitMask = 0
         torpedo.physicsBody?.usesPreciseCollisionDetection = true
         
         var offset:CGPoint = vecSub(location, b: torpedo.position)
@@ -168,6 +168,46 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
 //            
 //            self.addChild(sprite)
 //        }
+    }
+    
+
+    
+
+    
+    
+    func torpedoDidCollideWithAlien(torpedo:SKSpriteNode, alien:SKSpriteNode){
+        print("hit")
+        torpedo.removeFromParent()
+        alien.removeFromParent()
+        
+        aliensDestroyed += 1
+        
+        if ( aliensDestroyed > 10) {
+            //Transition to gameover
+        }
+    }
+    
+    func didBeginContact(contact: SKPhysicsContact) {
+        
+        var firstBody:SKPhysicsBody
+        var secondBody:SKPhysicsBody
+        
+        if (contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask) {
+            firstBody = contact.bodyA
+            secondBody = contact.bodyB
+        } else {
+            firstBody = contact.bodyB
+            secondBody = contact.bodyA
+        }
+        
+//        if (( firstBody.categoryBitMask & photonTorpedoCategory) != 0 && (secondBody.categoryBitMask & alienCategory) != 0) {
+//            
+//            torpedoDidCollideWithAlien( firstBody.node as! SKSpriteNode, alien:secondBody.node as! SKSpriteNode )
+//        }
+        
+        if ((firstBody.contactTestBitMask & photonTorpedoCategory) != 0 && (secondBody.contactTestBitMask & alienCategory) != 0){
+            torpedoDidCollideWithAlien(firstBody.node as! SKSpriteNode, alien: secondBody.node as! SKSpriteNode)
+        }
     }
    
     override func update(currentTime: CFTimeInterval) {
